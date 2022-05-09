@@ -6,21 +6,23 @@
 /*   By: ahamdy <ahamdy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 17:48:18 by ahamdy            #+#    #+#             */
-/*   Updated: 2022/04/13 16:59:06 by ahamdy           ###   ########.fr       */
+/*   Updated: 2022/05/09 12:06:42 by ahamdy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include<pthread.h>
-#include<stdio.h>
-#include<stdlib.h>
-#include<unistd.h>
-#include<sys/time.h>
-#include<stdbool.h>
+#ifndef PHILO_H
+# define PHILO_H
+# include<pthread.h>
+# include<stdio.h>
+# include<stdlib.h>
+# include<unistd.h>
+# include<sys/time.h>
+# include<stdbool.h>
 
 /* philo data type*/
 typedef struct philo
 {
-	pthread_t		*philo_type;
+	pthread_t		*t_philoype;
 	pthread_mutex_t	*mutex_fork;
 	pthread_mutex_t	mutex_msg;
 	pthread_mutex_t	mutex_id;
@@ -34,13 +36,16 @@ typedef struct philo
 	int				start_time;
 	bool			*is_eating;
 	bool			*is_finished;
-} philo_t;
+}	t_philo;
 
 /* dependencies functions*/
 int		ft_atoi(const char *str);
-void	valid_arg(char ** av, int ac);
+int		valid_arg(char **av, int ac);
 
 /* routine of the functions */
 void	*routine(void *philosopher);
-philo_t	*initialize_philo(char **av, int ac);
+t_philo	*initialize_philo(char **av, int ac);
 int		get_current_time(void);
+int		supervisor(t_philo *philo);
+void	display(char *msg, t_philo *philo, int id);
+#endif
