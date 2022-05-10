@@ -6,7 +6,7 @@
 /*   By: ahamdy <ahamdy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 20:58:41 by ahamdy            #+#    #+#             */
-/*   Updated: 2022/05/10 13:47:21 by ahamdy           ###   ########.fr       */
+/*   Updated: 2022/05/10 14:08:53 by ahamdy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,6 @@ int	main(int ac, char **av)
 		index = index + 2;
 		usleep(50);
 	}
-	system("leaks philo");
 	if (supervisor(philo))
 		return (1);
 	pthread_mutex_destroy(philo->mutex_fork);
