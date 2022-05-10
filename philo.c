@@ -6,7 +6,7 @@
 /*   By: ahamdy <ahamdy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 20:58:41 by ahamdy            #+#    #+#             */
-/*   Updated: 2022/05/09 12:06:10 by ahamdy           ###   ########.fr       */
+/*   Updated: 2022/05/10 11:49:14 by ahamdy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,13 @@
 void	ft_usleep(int ms_time)
 {
 	int	current_time;
+	int	t;
 
 	current_time = get_current_time();
+	t = (ms_time * 9) / 10;
+	usleep(t);
 	while (get_current_time() - current_time < ms_time)
-		usleep(300);
+		usleep(250);
 }
 
 void	eating_proccess(t_philo *philo, int id)
@@ -27,15 +30,15 @@ void	eating_proccess(t_philo *philo, int id)
 	display("%d ms %d has taken the fork\n", philo, id + 1);
 	pthread_mutex_lock(&philo->mutex_fork[(id + 1) % philo->number_of_philo]);
 	display("%d ms %d has taken the fork\n", philo, id + 1);
-	display("%d ms %d is eating\n", philo, id + 1);
 	philo->last_eat[id] = get_current_time();
 	philo->is_eating[id] = (bool)1;
+	display("%d ms %d is eating\n", philo, id + 1);
 	ft_usleep(philo->time_to_eat);
-	philo->is_eating[id] = (bool)0;
 	pthread_mutex_unlock(&philo->mutex_fork[id]);
-	display("%d ms %d put the fork\n", philo, id + 1);
+/* 	display("%d ms %d put the fork\n", philo, id + 1); */
 	pthread_mutex_unlock(&philo->mutex_fork[(id + 1) % philo->number_of_philo]);
-	display("%d ms %d put the fork\n", philo, id + 1);
+/* 	display("%d ms %d put the fork\n", philo, id + 1); */
+	philo->is_eating[id] = (bool)0;
 }
 
 void	*routine(void *philosopher)
@@ -45,7 +48,7 @@ void	*routine(void *philosopher)
 
 	philo = (t_philo *)philosopher;
 	pthread_mutex_lock(&philo->mutex_id);
-	id = philo->index++;
+	id = philo->index;
 	pthread_mutex_unlock(&philo->mutex_id);
 	while (philo->must_eat_ntimes[id] == -1 || philo->must_eat_ntimes[id]--)
 	{
@@ -70,8 +73,18 @@ int	main(int ac, char **av)
 	philo->index = 0;
 	while (index < philo->number_of_philo)
 	{
-		pthread_create(&philo->t_philoype[index++], NULL, &routine, philo);
-		usleep(100);
+		pthread_create(&philo->t_philoype[index], NULL, &routine, philo);
+		philo->index = index;
+		index = index + 2;
+		usleep(30);
+	}
+	index = 1;
+	while (index < philo->number_of_philo)
+	{
+		pthread_create(&philo->t_philoype[index], NULL ,&routine, philo);
+		philo->index = index;
+		index = index + 2;
+		usleep(30);
 	}
 	if (supervisor(philo))
 		return (1);

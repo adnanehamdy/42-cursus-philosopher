@@ -6,7 +6,7 @@
 #    By: ahamdy <ahamdy@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/09 11:59:23 by ahamdy            #+#    #+#              #
-#    Updated: 2022/05/09 11:59:25 by ahamdy           ###   ########.fr        #
+#    Updated: 2022/05/09 19:06:05 by ahamdy           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,8 +24,7 @@ all : $(NAME)
 $(NAME) : $(SRCS)
 	$(CC) $(CFLAGS) $(SRCS)  -o $(NAME)
 
-# clean :
-# 	rm -rf  
+clean :
 
 fclean : clean
 	rm -f $(NAME) 

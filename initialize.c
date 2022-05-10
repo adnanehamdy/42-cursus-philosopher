@@ -6,7 +6,7 @@
 /*   By: ahamdy <ahamdy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/06 16:49:24 by ahamdy            #+#    #+#             */
-/*   Updated: 2022/05/09 12:05:09 by ahamdy           ###   ########.fr       */
+/*   Updated: 2022/05/09 19:05:00 by ahamdy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,16 +89,9 @@ void	init_mutexes(t_philo *philo)
 t_philo	*initialize_philo(char **av, int ac)
 {
 	t_philo	*philo;
-	int		index;
 
-	index = 0;
 	philo = allocate_elements_of_philo(av);
 	initialize_time(av, philo, ac);
-	while (index < philo->number_of_philo)
-	{
-		philo->last_eat[index] = philo->start_time;
-		index++;
-	}
 	init_mutexes(philo);
 	return (philo);
 }
