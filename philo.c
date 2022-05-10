@@ -6,7 +6,7 @@
 /*   By: ahamdy <ahamdy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 20:58:41 by ahamdy            #+#    #+#             */
-/*   Updated: 2022/05/10 11:49:14 by ahamdy           ###   ########.fr       */
+/*   Updated: 2022/05/10 13:47:21 by ahamdy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,7 @@ void	eating_proccess(t_philo *philo, int id)
 	display("%d ms %d is eating\n", philo, id + 1);
 	ft_usleep(philo->time_to_eat);
 	pthread_mutex_unlock(&philo->mutex_fork[id]);
-/* 	display("%d ms %d put the fork\n", philo, id + 1); */
 	pthread_mutex_unlock(&philo->mutex_fork[(id + 1) % philo->number_of_philo]);
-/* 	display("%d ms %d put the fork\n", philo, id + 1); */
 	philo->is_eating[id] = (bool)0;
 }
 
@@ -76,7 +74,7 @@ int	main(int ac, char **av)
 		pthread_create(&philo->t_philoype[index], NULL, &routine, philo);
 		philo->index = index;
 		index = index + 2;
-		usleep(30);
+		usleep(50);
 	}
 	index = 1;
 	while (index < philo->number_of_philo)
@@ -84,8 +82,9 @@ int	main(int ac, char **av)
 		pthread_create(&philo->t_philoype[index], NULL ,&routine, philo);
 		philo->index = index;
 		index = index + 2;
-		usleep(30);
+		usleep(50);
 	}
+	system("leaks philo");
 	if (supervisor(philo))
 		return (1);
 	pthread_mutex_destroy(philo->mutex_fork);
